@@ -25,10 +25,16 @@ class JokeList extends Component {
   }
 
   async loadJokes() {
-    let res = await axios.get(API_URL, {
-      headers: { Accept: "application/json" }
-    });
-    console.log(res.data.joke);
+    let jokes = [];
+    while (jokes.length < this.props.numJokes) {
+      let res = await axios.get(API_URL, {
+        headers: { Accept: "application/json" }
+      });
+      jokes.push(res.data.joke);
+    }
+
+    this.setState({ jokes });
+    console.log(this.state.jokes);
   }
 
   render() {
