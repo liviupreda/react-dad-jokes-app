@@ -41,7 +41,11 @@ class JokeList extends Component {
     return (
       <div className="JokeList">
         <h1>Dad Jokes</h1>
-        <Joke />
+        <div className="JokeList-jokes">
+          {this.state.jokes.map(jk => (
+            <div>{jk}</div>
+          ))}
+        </div>
       </div>
     );
   }
