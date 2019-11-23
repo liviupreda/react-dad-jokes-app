@@ -5,7 +5,12 @@ class Joke extends Component {
   render() {
     return (
       <div className="Joke">
-        <p>Yo mamma so fat</p>
+        <div className="Joke-buttons">
+          <i className="fa fa-arrow-up"></i>
+          <span>{this.props.votes}</span>
+          <i className="fa fa-arrow-down"></i>
+        </div>
+        <div className="Joke-text">{this.props.text}</div>
       </div>
     );
   }
