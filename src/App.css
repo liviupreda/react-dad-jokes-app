@@ -3,7 +3,8 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background: rgb(2, 0, 36);
+  font-family: "Rubik", sans-serif;
+  color: #333;
   background: linear-gradient(
     135deg,
     rgba(172, 208, 255, 1) 0%,
