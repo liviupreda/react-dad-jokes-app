@@ -15,12 +15,15 @@ class JokeList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      jokes: []
+      // If LS is empty, set jokes to an empty array
+      jokes: JSON.parse(window.localStorage.getItem("jokes") || "[]")
     };
   }
 
   componentDidMount() {
-    this.loadJokes();
+    if (this.state.jokes.length === 0) {
+      this.loadJokes();
+    }
   }
 
   async loadJokes() {
@@ -33,6 +36,7 @@ class JokeList extends Component {
     }
 
     this.setState({ jokes });
+    window.localStorage.setItem("jokes", JSON.stringify(jokes));
   }
 
   // Handle upvotes and downvotes
