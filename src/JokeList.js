@@ -24,6 +24,11 @@ class JokeList extends Component {
     }
   }
 
+  // Click events on 'Get more jokes' button
+  handleClick() {
+    this.loadJokes();
+  }
+
   async loadJokes() {
     let jokes = [];
     while (jokes.length < this.props.numJokes) {
@@ -33,13 +38,13 @@ class JokeList extends Component {
       jokes.push({ id: res.data.id, text: res.data.joke, votes: 0 });
     }
 
-    this.setState({ jokes });
-    window.localStorage.setItem("jokes", JSON.stringify(jokes));
-  }
-
-  // Click events on 'Get more jokes' button
-  handleClick() {
-    this.loadJokes();
+    this.setState(
+      st => ({
+        jokes: [...st.jokes, ...jokes]
+      }),
+      () =>
+        window.localStorage.setItem("jokes", JSON.stringify(this.state.jokes))
+    );
   }
 
   // Handle upvotes and downvotes
