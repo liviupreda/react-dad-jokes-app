@@ -13,7 +13,8 @@ class JokeList extends Component {
     super(props);
     this.state = {
       // If LS is empty, set jokes to an empty array
-      jokes: JSON.parse(window.localStorage.getItem("jokes") || "[]")
+      jokes: JSON.parse(window.localStorage.getItem("jokes") || "[]"),
+      loading: false
     };
     this.handleClick = this.handleClick.bind(this);
   }
@@ -26,7 +27,7 @@ class JokeList extends Component {
 
   // Click events on 'Get more jokes' button
   handleClick() {
-    this.loadJokes();
+    this.setState({ loading: true }, this.loadJokes);
   }
 
   async loadJokes() {
@@ -40,7 +41,8 @@ class JokeList extends Component {
 
     this.setState(
       st => ({
-        jokes: [...st.jokes, ...jokes]
+        jokes: [...st.jokes, ...jokes],
+        loading: false
       }),
       () =>
         window.localStorage.setItem("jokes", JSON.stringify(this.state.jokes))
@@ -61,6 +63,15 @@ class JokeList extends Component {
   }
 
   render() {
+    if (this.state.loading) {
+      return (
+        <div className="JokeList-spinner">
+          <i className="fas fa-8x fa-laugh fa-spin" />
+          <h1 className="JokeList-title">Loading Jokes...</h1>
+        </div>
+      );
+    }
+
     return (
       <div className="JokeList">
         <div className="JokeList-sidebar">
