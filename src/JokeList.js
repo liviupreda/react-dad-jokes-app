@@ -1,6 +1,3 @@
-// GET https://icanhazdadjoke.com/
-// GET https://icanhazdadjoke.com/search
-
 import React, { Component } from "react";
 import axios from "axios";
 import Joke from "./Joke";
@@ -18,6 +15,7 @@ class JokeList extends Component {
       // If LS is empty, set jokes to an empty array
       jokes: JSON.parse(window.localStorage.getItem("jokes") || "[]")
     };
+    this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
@@ -39,13 +37,22 @@ class JokeList extends Component {
     window.localStorage.setItem("jokes", JSON.stringify(jokes));
   }
 
+  // Click events on 'Get more jokes' button
+  handleClick() {
+    this.loadJokes();
+  }
+
   // Handle upvotes and downvotes
   handleVote(id, delta) {
-    this.setState(st => ({
-      jokes: st.jokes.map(jk =>
-        jk.id === id ? { ...jk, votes: jk.votes + delta } : jk
-      )
-    }));
+    this.setState(
+      st => ({
+        jokes: st.jokes.map(jk =>
+          jk.id === id ? { ...jk, votes: jk.votes + delta } : jk
+        )
+      }),
+      () =>
+        window.localStorage.setItem("jokes", JSON.stringify(this.state.jokes))
+    );
   }
 
   render() {
@@ -59,7 +66,9 @@ class JokeList extends Component {
             src="https://assets.dryicons.com/uploads/icon/svg/8927/0eb14c71-38f2-433a-bfc8-23d9c99b3647.svg"
             alt="Laughing Emoji"
           />
-          <button className="JokeList-getmore">Get More Jokes</button>
+          <button className="JokeList-getmore" onClick={this.handleClick}>
+            Get More Jokes
+          </button>
         </div>
         <div className="JokeList-jokes">
           {this.state.jokes.map(jk => (
