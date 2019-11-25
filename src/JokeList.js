@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import uuid from "uuid";
 import Joke from "./Joke";
 import "./JokeList.css";
 
@@ -39,7 +40,7 @@ class JokeList extends Component {
           headers: { Accept: "application/json" }
         });
         if (!this.seenJokes.has(res.data.joke)) {
-          jokes.push({ id: res.data.id, text: res.data.joke, votes: 0 });
+          jokes.push({ id: uuid(), text: res.data.joke, votes: 0 });
         } else {
           console.log("Found a duplicate");
           console.log(res.data.joke);
